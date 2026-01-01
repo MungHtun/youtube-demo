@@ -10,14 +10,12 @@ import { useEffect, useState } from 'react'
 
 interface User {
     name: string
+    email: string
+    role: string
 }
 
 const Users = () => {
-    const [userData, setUserData] = useState<User[]>([
-        {
-            name: ''
-        }
-    ])
+    const [userData, setUserData] = useState<User[]>([])
 
     useEffect(() => {
         axios
@@ -27,6 +25,7 @@ const Users = () => {
             })
             .catch(error => {})
     }, [])
+    
     return (
         <Card className="h-fit w-full transition duration-300 ease-linear">
             <CardHeader>
@@ -37,24 +36,28 @@ const Users = () => {
             </CardHeader>
             <CardContent>
                 <ul className="">
-                    <li className="flex items-center justify-between gap-4">
-                        <div className="flex items-center gap-2">
-                            <span>Name: </span>
-                            <span>{userData.name}</span>
+                    {userData.map((user, index) => (
+                        <div key={index} className="mb-4">
+                            <li className="flex items-center justify-between gap-4">
+                                <div className="flex items-center gap-2">
+                                    <span>Name: </span>
+                                    <span>{user.name}</span>
+                                </div>
+                            </li>
+                            <li className="flex items-center justify-between gap-4">
+                                <div className="flex items-center gap-2">
+                                    <span>Email: </span>
+                                    <span>{user.email}</span>
+                                </div>
+                            </li>
+                            <li className="flex items-center justify-between gap-4">
+                                <div className="flex items-center gap-2">
+                                    <span>Role: </span>
+                                    <span>{user.role}</span>
+                                </div>
+                            </li>
                         </div>
-                    </li>
-                    <li className="flex items-center justify-between gap-4">
-                        <div className="flex items-center gap-2">
-                            <span>Email: </span>
-                            <span>{userData.email}</span>
-                        </div>
-                    </li>
-                    <li className="flex items-center justify-between gap-4">
-                        <div className="flex items-center gap-2">
-                            <span>Role: </span>
-                            <span>{userData.role}</span>
-                        </div>
-                    </li>
+                    ))}
                 </ul>
             </CardContent>
         </Card>
